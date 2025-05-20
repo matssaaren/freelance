@@ -13,7 +13,7 @@ const fs = require('fs');
 const http = require('http');
 const { Server } = require('socket.io');
 
-const clientIP = 'http://localhost:3000'
+const clientIP = 'http://192.168.88.124:3000'
 
 const app = express();
 const PORT = 5000;

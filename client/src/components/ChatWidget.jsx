@@ -64,13 +64,13 @@ export default function ChatWidget() {
           )}
         </div>
 
-        <div className="cw-footer">
           {view === 'list' && (
+        <div className="cw-footer">
             <button className="cw-btn" onClick={() => setView('new')}>
               + New Chat
             </button>
-          )}
         </div>
+          )}
       </div>
 
       <button

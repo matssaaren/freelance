@@ -7,10 +7,9 @@
   padding: 1.5rem;
   width: 100%;
   max-width: 380px;
-  margin: 2rem auto;
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  height: fit-content;
+  height: 100%;
 }
 
 .new-chat-form h2 {
