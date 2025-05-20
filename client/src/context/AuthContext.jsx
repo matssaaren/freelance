@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
   // 3) Fetch /auth/me
   const fetchUserInfo = async tok => {
     try {
-      const res = await fetch('http://192.168.88.124:5000/auth/me', {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + '/auth/me', {
         headers: { Authorization: `Bearer ${tok}` }
       });
       if (!res.ok) throw new Error('Unauthorized');
@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
         newToken = emailOrData.token;
       } else {
         // Email/password
-        const res = await fetch('http://192.168.88.124:5000/login', {
+        const res = await fetch(import.meta.env.VITE_SERVERIP + '/login', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body:    JSON.stringify({ email: emailOrData, password })
