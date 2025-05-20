@@ -13,6 +13,7 @@ const fs = require('fs');
 const http = require('http');
 const { Server } = require('socket.io');
 
+const clientIP = 'http://localhost:3000'
 
 const app = express();
 const PORT = 5000;
@@ -619,7 +620,7 @@ app.get('/conversations', authenticateToken, async (req, res) => {
 
 const server = http.createServer(app);
 const io = new Server(server, {
-  cors: { origin: 'http://localhost:3000', methods: ['GET','POST'] }
+  cors: { origin: clientIP, methods: ['GET','POST'] }
 });
 
 io.on('connection', socket => {

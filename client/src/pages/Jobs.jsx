@@ -14,7 +14,7 @@ function Jobs() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const res = await fetch('http://localhost:5000/posts');
+        const res = await fetch(import.meta.env.VITE_SERVERIP + '/posts');
         const data = await res.json();
         setAllPosts(data);
         setPosts(data);
@@ -123,7 +123,7 @@ function Jobs() {
                         post.avatar
                           ? post.avatar.startsWith('http')
                             ? post.avatar
-                            : `http://localhost:5000/${post.avatar}`
+                            : import.meta.env.VITE_SERVERIP + `/${post.avatar}`
                           : 'https://placehold.co/50x50/png'
                       }
                       alt="User Avatar"

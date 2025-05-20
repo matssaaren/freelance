@@ -21,7 +21,7 @@ function PublicProfile() {
 
   async function fetchProfile() {
     try {
-      const res = await fetch(`http://localhost:5000/profile/${username}`);
+      const res = await fetch(import.meta.env.VITE_SERVERIP + `/profile/${username}`);
       if (!res.ok) throw new Error('Profile not found');
       const data = await res.json();
       setUser(data);
@@ -33,14 +33,14 @@ function PublicProfile() {
   }
 
   async function fetchMyPosts(displayName) {
-    const res = await fetch(`http://localhost:5000/posts/user/${username}`);
+    const res = await fetch(import.meta.env.VITE_SERVERIP + `/posts/user/${username}`);
     const data = await res.json();
     setPosts(data);
   }
 
   async function fetchRatings(userId) {
   try {
-    const res = await fetch(`http://localhost:5000/reviews/ratings/${userId}`);
+    const res = await fetch(import.meta.env.VITE_SERVERIP + `/reviews/ratings/${userId}`);
     if (!res.ok) {
       throw new Error('Failed to fetch ratings');
     }
@@ -56,7 +56,7 @@ const handleRatingSubmit = async () => {
   if (!newRating || !loggedInUser || !user?.id) return;
 
   try {
-    const res = await fetch(`http://localhost:5000/reviews/ratings/${user.id}`, {
+    const res = await fetch(import.meta.env.VITE_SERVERIP + `/reviews/ratings/${user.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ const handleRatingSubmit = async () => {
               src={
                 user.avatar?.startsWith('http')
                   ? user.avatar
-                  : `http://localhost:5000/${user.avatar}`
+                  : import.meta.env.VITE_SERVERIP + `/${user.avatar}`
               }
               alt="User Avatar"
               className="avatar"
@@ -171,7 +171,7 @@ const handleRatingSubmit = async () => {
                         src={
                           post.avatar?.startsWith('http')
                             ? post.avatar
-                            : `http://localhost:5000/${post.avatar}`
+                            : import.meta.env.VITE_SERVERIP + `/${post.avatar}`
                         }
                         alt="User Avatar"
                         className="job-user-avatar"

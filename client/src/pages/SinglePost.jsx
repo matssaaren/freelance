@@ -15,7 +15,7 @@ function SinglePost() {
   
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/posts/${post.post_id}`, {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + `/posts/${post.post_id}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -37,7 +37,7 @@ function SinglePost() {
   useEffect(() => {
     async function fetchPost() {
       try {
-        const res = await fetch(`http://localhost:5000/posts/${id}`);
+        const res = await fetch(import.meta.env.VITE_SERVERIP + `/posts/${id}`);
         const data = await res.json();
         setPost(data);
       } catch (error) {

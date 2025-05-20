@@ -22,7 +22,7 @@ function Login() {
 
   const handleGoogleLogin = async (credentialResponse) => {
     try {
-      const res = await fetch('http://localhost:5000/auth/google', {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + '/auth/google', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token: credentialResponse.credential }),

@@ -23,7 +23,7 @@ function Profile() {
   async function fetchMyPosts() {
     try {
       const username = user.username
-      const res = await fetch(`http://localhost:5000/posts/user/${username}`);
+      const res = await fetch(import.meta.env.VITE_SERVERIP + `/posts/user/${username}`);
       const data = await res.json();
       setMyPosts(data);
     } catch (error) {
@@ -33,7 +33,7 @@ function Profile() {
 
   async function fetchMyRatings(userId) {
     try {
-      const res = await fetch(`http://localhost:5000/reviews/ratings/${userId}`);
+      const res = await fetch(import.meta.env.VITE_SERVERIP + `/reviews/ratings/${userId}`);
       if (!res.ok) throw new Error('Failed to fetch ratings');
       const data = await res.json();
       setRatings(data);
@@ -59,7 +59,7 @@ function Profile() {
               src={
                 user.avatar?.startsWith('http')
                   ? user.avatar
-                  : `http://localhost:5000/${user.avatar}`
+                  : import.meta.env.VITE_SERVERIP + `/${user.avatar}`
               }
               alt="User Avatar"
               className="avatar"

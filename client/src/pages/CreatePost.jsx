@@ -25,7 +25,7 @@ function CreatePost() {
     try {
       const token = localStorage.getItem('token');
 
-      const res = await fetch('http://localhost:5000/create-post', {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + '/create-post', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

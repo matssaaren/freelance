@@ -56,7 +56,7 @@ export default function EditProfile() {
     try {
       const token = localStorage.getItem('token');
       const body = { [key]: tempValue };
-      const res = await fetch('http://localhost:5000/update-profile', {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + '/update-profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ export default function EditProfile() {
     form.append('avatar', file);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/upload-avatar', {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + '/upload-avatar', {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
         body: form
@@ -106,7 +106,7 @@ export default function EditProfile() {
     }
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/update-profile', {
+      const res = await fetch(import.meta.env.VITE_SERVERIP + '/update-profile', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
