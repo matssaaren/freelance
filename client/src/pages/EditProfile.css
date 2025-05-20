@@ -1,0 +1,104 @@
+.edit-profile-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 40px;
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Full-width for header, avatar, dividers, button */
+.edit-profile-form h3,
+.avatar-preview,
+.divider,
+.submit-btn,
+.form-error,
+.form-success {
+  grid-column: span 2;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-section label {
+  font-weight: 600;
+  color: #333;
+}
+
+.form-section input,
+.form-section textarea {
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  border-radius: 8px;
+  width: 100%;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.avatar-preview {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn {
+  justify-self: end;
+  padding: 12px 24px;
+  background-color: #5865f2;
+  color: white;
+  border: none;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #4044c3;
+}
+
+.form-error {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+.form-success {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.divider {
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+/* Responsive fallback */
+@media (max-width: 768px) {
+  .edit-profile-form {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .submit-btn {
+    justify-self: stretch;
+    width: 100%;
+  }
+}

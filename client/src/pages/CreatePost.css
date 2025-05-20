@@ -1,0 +1,106 @@
+.create-post-container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+}
+
+.create-post-container h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 24px;
+}
+
+.create-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input,
+textarea {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  font-size: 1rem;
+}
+
+.char-count {
+  position: absolute;
+  bottom: 6px;
+  right: 10px;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.submit-btn {
+  align-self: flex-end;
+  background-color: #5865f2;
+  color: white;
+  padding: 12px 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #4044c3;
+}
+
+.form-error {
+  color: #e74c3c;
+  font-weight: 500;
+  margin-top: -10px;
+}
+
+/* === Live preview card === */
+.post-preview {
+  margin-top: 40px;
+}
+
+.post-preview h4 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.post-card {
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #f8f8ff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.post-card h3 {
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.post-card p {
+  color: #555;
+  line-height: 1.4;
+}
+
+select {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  border-radius: 8px;
+}

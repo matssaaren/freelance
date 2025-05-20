@@ -1,0 +1,169 @@
+/* Main container fills screen */
+.profile-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+/* Two-column layout */
+.profile-grid {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Profile section */
+.profile-section {
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.profile-section .avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section h2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+}
+
+.profile-section p {
+  margin: 6px 0;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.profile-action-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #5865f2;
+}
+
+.create-btn {
+  background-color: #28a745;
+}
+
+.edit-btn:hover {
+  background-color: #2531bb;
+}
+
+.create-btn:hover {
+  background-color: #098025;
+}
+
+/* Posts section */
+.posts-section {
+  flex: 2;
+  min-width: 400px;
+}
+
+.posts-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+/* Posts grid/list */
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Post card */
+.post-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.post-card:hover {
+  transform: translateY(-3px);
+}
+
+.post-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.post-card p {
+  margin: 6px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.view-job-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #5865f2;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.view-job-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    flex-direction: column;
+  }
+
+  .profile-section, .posts-section {
+    max-width: 100%;
+  }
+
+  .post-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Scrollable posts wrapper */
+.post-scroll-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* Smooth scrollbar styling (optional) */
+.post-scroll-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.post-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.post-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+

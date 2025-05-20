@@ -1,0 +1,144 @@
+.home-hero {
+  flex-grow: 1;
+  background: linear-gradient(to right, #fdfbfb, #ebedee);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 30px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  width: 100%;
+  gap: 40px;
+}
+
+.hero-text {
+  flex: 1 1 500px;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.hero-text h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1a1a1a;
+}
+
+.hero-text p {
+  font-size: 1.2rem;
+  color: #4a4a4a;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  font-size: 1rem;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.primary-btn {
+  background-color: #6c63ff;
+  color: white;
+  box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+}
+
+.primary-btn:hover {
+  background-color: #5146cc;
+}
+
+.secondary-btn {
+  background-color: white;
+  color: #6c63ff;
+  border: 2px solid #6c63ff;
+}
+
+.secondary-btn:hover {
+  background-color: #f3f2ff;
+}
+
+.hero-image {
+  flex: 1 1 400px;
+  text-align: center;
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero-image img {
+  width: 100%;
+  max-width: 400px;
+  animation: fadeIn 1.5s ease forwards;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-text h1 {
+    font-size: 2.2rem;
+  }
+
+  .hero-text p {
+    font-size: 1.1rem;
+  }
+
+  .hero-image {
+    margin-top: 30px;
+  }
+}
