@@ -6,76 +6,89 @@ function Register() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [role, setRole] = useState('freelancer');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [phoneCode, setPhoneCode] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [phoneError, setPhoneError] = useState('');
-  const [dob, setDob] = useState('');
-  const [dobError, setDobError] = useState('');
+  const [username, setUsername] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [company, setCompany] = useState('');
+  const [role, setRole] = useState('freelancer');
+
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState('');
+
+  const [phoneCode, setPhoneCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneError, setPhoneError] = useState('');
+
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const [dob, setDob] = useState('');
+  const [dobError, setDobError] = useState('');
+
   const [registerError, setRegisterError] = useState('');
 
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const isStrongPassword = (password) => password.length >= 8 && /\d/.test(password);
-  const isValidPhoneNumber = (code, number) =>
-    /^\+\d{1,4}$/.test(code.trim()) && /^\d{7,15}$/.test(number.trim());
-
-  const isAtLeast18YearsOld = (dateString) => {
+  // Validation helpers
+  const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  const isStrongPassword = (p) => p.length >= 8 && /\d/.test(p);
+  const isValidPhone = (code, num) =>
+    /^\+\d{1,4}$/.test(code.trim()) && /^\d{7,15}$/.test(num.trim());
+  const isAdult = (d) => {
     const today = new Date();
-    const dob = new Date(dateString);
-    let age = today.getFullYear() - dob.getFullYear();
-    const m = today.getMonth() - dob.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    const birth = new Date(d);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
     return age >= 18;
   };
 
+  // read role from URL
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    const urlRole = params.get('role');
-    if (urlRole === 'client' || urlRole === 'freelancer') {
-      setRole(urlRole);
-    }
+    const r = params.get('role');
+    if (r === 'client' || r === 'freelancer') setRole(r);
   }, [location.search]);
 
+  // overall form validity
   const isFormValid =
+    username.trim() &&
     firstName.trim() &&
     lastName.trim() &&
     isValidEmail(email) &&
     isStrongPassword(password) &&
-    confirmPassword === password &&
-    isValidPhoneNumber(phoneCode, phoneNumber) &&
+    password === confirmPassword &&
+    isValidPhone(phoneCode, phoneNumber) &&
     dob &&
-    isAtLeast18YearsOld(dob) &&
+    isAdult(dob) &&
     (role !== 'client' || company.trim());
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setRegisterError('');
 
-    const userData = {
-      firstName,
-      lastName,
-      email,
+    // final client-side checks
+    if (!isFormValid) return;
+
+    const payload = {
+      username: username.trim(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      company: role === 'client' ? company.trim() : null,
+      email: email.trim(),
       password,
       phone: `${phoneCode}${phoneNumber}`,
       dob,
       role,
-      company: role === 'client' ? company : null
     };
 
     try {
       const res = await fetch('http://localhost:5000/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData),
+        body: JSON.stringify(payload),
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Registration failed');
       navigate('/login', { state: { registered: true } });
@@ -96,12 +109,31 @@ function Register() {
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className="register-form">
           <label>
+            Username
+            <input
+              type="text"
+              placeholder="your-username"
+              value={username}
+              required
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setUsernameError(
+                  /^[a-zA-Z0-9-_]{3,20}$/.test(e.target.value)
+                    ? ''
+                    : 'Use 3–20 letters, numbers, hyphens or underscores'
+                );
+              }}
+            />
+          </label>
+          {usernameError && <p className="form-warning">{usernameError}</p>}
+
+          <label>
             First Name
             <input
               type="text"
               placeholder="Jane"
-              required
               value={firstName}
+              required
               onChange={(e) => setFirstName(e.target.value)}
             />
           </label>
@@ -111,21 +143,21 @@ function Register() {
             <input
               type="text"
               placeholder="Doe"
-              required
               value={lastName}
+              required
               onChange={(e) => setLastName(e.target.value)}
             />
           </label>
 
           {role === 'client' && (
             <label>
-              Company Name
+              Company
               <input
                 type="text"
                 placeholder="Company Inc."
                 value={company}
-                onChange={(e) => setCompany(e.target.value)}
                 required
+                onChange={(e) => setCompany(e.target.value)}
               />
             </label>
           )}
@@ -139,43 +171,45 @@ function Register() {
               required
               onChange={(e) => {
                 setEmail(e.target.value);
-                setEmailError(isValidEmail(e.target.value) ? '' : 'Invalid email address');
+                setEmailError(
+                  isValidEmail(e.target.value) ? '' : 'Invalid email'
+                );
               }}
             />
           </label>
           {emailError && <p className="form-warning">{emailError}</p>}
 
           <label>
-            Phone Number
+            Phone
             <div className="phone-input">
               <input
                 type="text"
                 placeholder="+372"
                 value={phoneCode}
+                required
+                className="phone-code-input"
                 onChange={(e) => {
                   setPhoneCode(e.target.value);
                   setPhoneError(
-                    isValidPhoneNumber(e.target.value, phoneNumber)
+                    isValidPhone(e.target.value, phoneNumber)
                       ? ''
-                      : 'Invalid phone code or number'
+                      : 'Invalid phone'
                   );
                 }}
-                required
-                className="phone-code-input"
               />
               <input
                 type="tel"
                 placeholder="555123456"
                 value={phoneNumber}
+                required
                 onChange={(e) => {
                   setPhoneNumber(e.target.value);
                   setPhoneError(
-                    isValidPhoneNumber(phoneCode, e.target.value)
+                    isValidPhone(phoneCode, e.target.value)
                       ? ''
-                      : 'Invalid phone code or number'
+                      : 'Invalid phone'
                   );
                 }}
-                required
               />
             </div>
           </label>
@@ -189,12 +223,11 @@ function Register() {
               value={password}
               required
               onChange={(e) => {
-                const pwd = e.target.value;
-                setPassword(pwd);
+                setPassword(e.target.value);
                 setPasswordError(
-                  isStrongPassword(pwd)
+                  isStrongPassword(e.target.value)
                     ? ''
-                    : 'Password must be at least 8 characters and include a number'
+                    : 'At least 8 chars & one number'
                 );
               }}
             />
@@ -222,12 +255,11 @@ function Register() {
               value={dob}
               required
               onChange={(e) => {
-                const selectedDate = e.target.value;
-                setDob(selectedDate);
+                setDob(e.target.value);
                 setDobError(
-                  isAtLeast18YearsOld(selectedDate)
+                  isAdult(e.target.value)
                     ? ''
-                    : 'You must be at least 18 years old to register'
+                    : 'You must be at least 18'
                 );
               }}
             />
@@ -235,28 +267,32 @@ function Register() {
           {dobError && <p className="form-warning">{dobError}</p>}
 
           <div className="role-selector">
-            <p>Are you hiring or looking for a job?</p>
+            <p>I am a:</p>
             <div className="role-buttons">
               <button
                 type="button"
                 className={role === 'freelancer' ? 'selected' : ''}
                 onClick={() => setRole('freelancer')}
               >
-                I'm looking for a job
+                Freelancer
               </button>
               <button
                 type="button"
                 className={role === 'client' ? 'selected' : ''}
                 onClick={() => setRole('client')}
               >
-                I'm hiring
+                Client
               </button>
             </div>
           </div>
 
           {registerError && <p className="form-warning">{registerError}</p>}
 
-          <button type="submit" className="submit-btn" disabled={!isFormValid}>
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={!isFormValid}
+          >
             Create Account
           </button>
         </form>

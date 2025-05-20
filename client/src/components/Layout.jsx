@@ -1,6 +1,9 @@
+// src/components/Layout.jsx
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import { Outlet } from 'react-router-dom';
+import ChatWidget from './ChatWidget';
 import './Layout.css';
 
 function Layout() {
@@ -10,6 +13,10 @@ function Layout() {
       <main className="app-main">
         <Outlet />
       </main>
+
+      {/* Floating chat panel */}
+      <ChatWidget />
+
       <Footer />
     </div>
   );

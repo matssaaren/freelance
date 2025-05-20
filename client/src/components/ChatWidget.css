@@ -1,0 +1,127 @@
+/* ChatWidget.css */
+
+/* tweak these to taste */
+:root {
+  --toggle-bottom: 24px;   /* distance from bottom to center of toggle button */
+  --toggle-size:   56px;   /* diameter of toggle button */
+  --panel-gap:     44px;    /* gap between button and panel when open */
+}
+
+/* the round toggle button */
+.chat-toggle-btn {
+  position: fixed;
+  bottom: var(--toggle-bottom);
+  right: 24px;
+  width: var(--toggle-size);
+  height: var(--toggle-size);
+  border-radius: 50%;
+  background: #4b7bec;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* the chat panel */
+.chat-widget {
+  position: fixed;
+  right: 24px;
+  bottom: calc(-100% - var(--panel-gap));  /* hide entirely off-screen */
+  width: 360px;
+  max-height: 70vh;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: bottom 0.3s ease-out;
+  z-index: 999;
+}
+
+/* when open, position it just above the button */
+.chat-widget.open {
+  bottom: calc(
+    var(--toggle-bottom)            /* from bottom of viewport to center of button */
+    + var(--toggle-size) / 2        /* move up half the button */
+    + var(--panel-gap)              /* gap between button and panel */
+  );
+}
+
+/* header inside panel */
+.cw-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #4b7bec;
+  color: white;
+}
+
+.cw-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.cw-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* scrollable body */
+.cw-body {
+  flex: 1;
+  background: #f7f7f7;
+  overflow-y: auto;
+}
+
+/* reset any ChatPage shadows/radii */
+.chat-widget .chat-window,
+.chat-widget .messages,
+.chat-widget .composer {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.cw-back {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: 0.2s;
+}
+.cw-back:hover {
+  color: #e0e0e0;
+}
+
+/* ensure footer sits at bottom */
+.cw-footer {
+  background: #fff;
+  padding: 0.5rem;
+  text-align: center;
+  border-top: 1px solid #e0e0e0;
+  flex-shrink: 0;
+}
+
+.cw-btn {
+  background: #4b7bec;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.cw-btn:hover {
+  background: #3867d6;
+}

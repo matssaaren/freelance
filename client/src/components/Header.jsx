@@ -11,6 +11,7 @@ function Header() {
         <div className="header-left">
           <Link to="/" className="header-logo">FreelanceHub</Link>
           <Link to="/jobs" className="header-link">Jobs</Link>
+          
           {user && <Link to="/profile" className="header-link">Profile</Link>}
         </div>
 
@@ -19,7 +20,7 @@ function Header() {
             <>
               <span className="header-user">Hi, {user.name}</span>
               <button className="header-btn header-logout" onClick={logout}>
-              Sign Out
+                Sign Out
               </button>
             </>
           ) : (

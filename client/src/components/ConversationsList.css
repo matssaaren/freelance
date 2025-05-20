@@ -1,0 +1,158 @@
+:root {
+  --primary-color: #4b7bec;
+  --bg-hover:      #f0f0f0;
+  --text-color:    #2f3542;
+  --border-color:  #ddd;
+}
+
+/* Wrapper */
+.convos {
+  padding: 1rem;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.convos h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+/* List */
+.convos-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Item */
+.convo-item {
+  margin: 0.5rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+
+.convo-item:hover {
+  background: var(--bg-hover);
+}
+
+/* Link or div wrapper */
+.convo-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Title of the convo */
+.convo-names {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+/* Meta (last activity) */
+.convo-meta {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Empty / error state */
+.empty-state {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-color);
+}
+
+.empty-state.error {
+  color: red;
+}
+
+.empty-state a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.convo-search {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.convo-username {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+.convo-meta {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+/* src/components/ConversationsList.css */
+
+.convo-search {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.convo-username {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+.convo-meta {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.5rem;
+}
+
+.convo-item {
+  margin-bottom: 0.5rem;
+}
+
+.convo-link {
+  display: block;
+  padding: 0.75rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.1s;
+}
+
+.convo-link:hover {
+  background: #f7f7f7;
+}
+
+/* src/components/ConversationsList.css */
+
+.convos-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.new-chat-btn {
+  background: #4b7bec;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.new-chat-btn:hover {
+  background: #3867d6;
+}

@@ -64,7 +64,8 @@ function Profile() {
               alt="User Avatar"
               className="avatar"
             />
-            <h2>{user.name}</h2>
+            <h2>{user.username}</h2>
+            <p><strong>Name:</strong> {user.name}</p>
             {user.company && <p><strong>Company:</strong> {user.company}</p>}
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Phone:</strong> {user.phone || 'Not set'}</p>
