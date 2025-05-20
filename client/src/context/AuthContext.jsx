@@ -1,6 +1,5 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
 
 const AuthContext = createContext();
 
@@ -19,43 +18,41 @@ export function AuthProvider({ children }) {
   }, []);
 
   const fetchUserInfo = async (token) => {
-  try {
-    const res = await fetch('http://localhost:5000/auth/me', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const res = await fetch('http://localhost:5000/auth/me', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (!res.ok) {
-      throw new Error('Unauthorized');
+      if (!res.ok) {
+        throw new Error('Unauthorized');
+      }
+
+      const userData = await res.json();
+
+      // ✅ Store all expected fields
+      setUser({
+        id: userData.id,
+        name: userData.name,
+        username: userData.username, // ✅ important for unique identity
+        email: userData.email,
+        phone: userData.phone,
+        dob: userData.dob,
+        role: userData.role,
+        avatar: userData.avatar,
+        bio: userData.bio,
+        company: userData.company || null,
+      });
+    } catch (error) {
+      console.error('AuthContext fetch error:', error);
+      localStorage.removeItem('token');
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    const userData = await res.json();
-
-    // ✅ Destructure safely
-    setUser({
-      id: userData.id,
-      name: userData.name,
-      email: userData.email,
-      phone: userData.phone,
-      dob: userData.dob,
-      role: userData.role,
-      avatar: userData.avatar,
-      bio: userData.bio,
-      company: userData.company || null, // <- 🟢 this makes sure it's always available
-    });
-
-  } catch (error) {
-    console.error('AuthContext fetch error:', error);
-    localStorage.removeItem('token');
-    setUser(null);
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  // 🔥 Add refreshUser function (public)
   const refreshUser = async () => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -66,7 +63,7 @@ export function AuthProvider({ children }) {
   const login = async (emailOrData, password) => {
     try {
       let token;
-  
+
       if (typeof emailOrData === 'object' && emailOrData.token) {
         // Google login
         token = emailOrData.token;
@@ -77,24 +74,21 @@ export function AuthProvider({ children }) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: emailOrData, password }),
         });
-  
+
         const data = await res.json();
-  
-        if (!res.ok) {
-          throw new Error(data.error || 'Login failed');
-        }
-  
+        if (!res.ok) throw new Error(data.error || 'Login failed');
+
         token = data.token;
       }
-  
+
       localStorage.setItem('token', token);
       await fetchUserInfo(token);
       navigate('/profile');
     } catch (error) {
+      console.error('Login error:', error);
       throw error;
     }
   };
-  
 
   const logout = () => {
     localStorage.removeItem('token');

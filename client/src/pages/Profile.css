@@ -1,23 +1,42 @@
-/* Main container fills screen */
+/* Main container */
 .profile-container {
   max-width: 1200px;
   margin: 40px auto;
   padding: 30px;
 }
 
-/* Two-column layout */
+/* Layout */
 .profile-grid {
   display: flex;
-  gap: 40px;
+  justify-content: space-between;
   align-items: flex-start;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
-/* Profile section */
-.profile-section {
+/* Left column: Profile + Ratings */
+.left-column {
   flex: 1;
   min-width: 300px;
-  max-width: 400px;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Right column: Posts */
+.posts-section {
+  flex: 2;
+  min-width: 400px;
+}
+
+.posts-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+/* Profile Card */
+.profile-section {
   background: white;
   border-radius: 16px;
   padding: 30px;
@@ -45,6 +64,7 @@
   font-size: 0.95rem;
 }
 
+/* Profile Action Buttons */
 .profile-actions {
   display: flex;
   justify-content: center;
@@ -65,37 +85,83 @@
   background-color: #5865f2;
 }
 
-.create-btn {
-  background-color: #28a745;
-}
-
 .edit-btn:hover {
   background-color: #2531bb;
+}
+
+.create-btn {
+  background-color: #28a745;
 }
 
 .create-btn:hover {
   background-color: #098025;
 }
 
-/* Posts section */
-.posts-section {
-  flex: 2;
-  min-width: 400px;
+/* Ratings Card */
+.ratings-box {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  padding: 24px;
 }
 
-.posts-section h3 {
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+.ratings-box h3 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
-/* Posts grid/list */
+.rating-form select,
+.rating-form textarea {
+  width: 100%;
+  font-size: 0.95rem;
+  padding: 8px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.rating-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.rating-form button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background-color: #5865f2;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.rating-form button:hover {
+  background-color: #3f48d7;
+}
+
+.rating-list {
+  padding: 0;
+  margin-top: 10px;
+  list-style: none;
+}
+
+.rating-list li {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+/* Posts Grid */
 .post-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
-/* Post card */
 .post-card {
   background: #ffffff;
   padding: 20px;
@@ -132,20 +198,6 @@
   text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-  .profile-grid {
-    flex-direction: column;
-  }
-
-  .profile-section, .posts-section {
-    max-width: 100%;
-  }
-
-  .post-list {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* Scrollable posts wrapper */
 .post-scroll-wrapper {
   max-height: 500px;
@@ -153,7 +205,7 @@
   padding-right: 8px;
 }
 
-/* Smooth scrollbar styling (optional) */
+/* Scrollbar styling */
 .post-scroll-wrapper::-webkit-scrollbar {
   width: 8px;
 }
@@ -167,3 +219,21 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-grid {
+    flex-direction: column;
+  }
+
+  .left-column, .posts-section {
+    max-width: 100%;
+  }
+
+  .post-list {
+    grid-template-columns: 1fr;
+  }
+
+  .rating-form button {
+    width: 100%;
+  }
+}

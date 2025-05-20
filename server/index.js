@@ -58,10 +58,10 @@ const upload = multer({ storage: storage });
 // Download better comments plugin for VSCode
 
 // // TODO 1): Google login integration 
-// TODO 2): Job/profile categories 
-// TODO 3): Optional company info (hide if empty) 
+// // TODO 2): Job/profile categories 
+// // TODO 3): Optional company info (hide if empty) 
 // TODO 4): Notifications tab 
-// TODO 5): Add ratings feature 
+// // TODO 5): Add ratings feature 
 // TODO 6): Comments functionality 
 // TODO 7): User chat functionality 
 // TODO 8): PRO features 
@@ -127,17 +127,24 @@ app.post('/auth/google', async (req, res) => {
     // Check if user exists
     const [existing] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
 
+    let username = `${given_name.toLowerCase()}-${family_name.toLowerCase()}`
+    const [existingUsername] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
+    if (existingUsername.length > 0) {
+      username = `${given_name.toLowerCase()}-${family_name.toLowerCase()}${existingUsername.length + 1}`
+    }
+
     let user;
 
     if (existing.length === 0) {
       // Insert new user
       const [result] = await db.query(
-        'INSERT INTO users (first_name, last_name, email, avatar) VALUES (?, ?, ?, ?)',
-        [given_name, family_name, email, picture]
+        'INSERT INTO users (first_name, last_name, email, avatar, username) VALUES (?, ?, ?, ?, ?)',
+        [given_name, family_name, email, picture, username]
       );
 
       user = {
         id: result.insertId,
+        username: username,
         first_name: given_name,
         last_name: family_name,
         email,
@@ -203,7 +210,11 @@ app.post('/register', async (req, res) => {
     if (existing.length > 0) {
       return res.status(409).json({ error: 'Email already registered' });
     }
-
+    let username = `${firstName}-${lastName}`
+    const [existingUsername] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
+    if (existingUsername.length > 0) {
+      username = `${firstName.toLowerCase()}-${lastName.toLowerCase()}${existingUsername.length + 1}`
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // 🔥 Generate random background color for avatar
@@ -211,8 +222,8 @@ app.post('/register', async (req, res) => {
     const defaultAvatar = `https://placehold.co/150/${randomColor}/ffffff?text=${firstName[0]}${lastName[0]}`;
 
     await db.query(
-  'INSERT INTO users (first_name, last_name, email, password, phone, dob, role, company, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  [firstName, lastName, email, hashedPassword, phone, dob, role, company, defaultAvatar]
+  'INSERT INTO users (username, first_name, last_name, email, password, phone, dob, role, company, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  [username, firstName, lastName, email, hashedPassword, phone, dob, role, company, defaultAvatar]
   );
 
 
@@ -274,6 +285,7 @@ app.get('/auth/me', authenticateToken, async (req, res) => {
   res.json({
     id: user.id,
     name: `${user.first_name} ${user.last_name}`,
+    username: user.username,
     email: user.email,
     phone: user.phone,
     role: user.role,
@@ -326,7 +338,7 @@ app.get('/profile/:username', async (req, res) => {
   const username = req.params.username;
 
   const [rows] = await db.query(
-    'SELECT * FROM users WHERE CONCAT(first_name, "-", last_name) = ?',
+    'SELECT * FROM users WHERE username = ?',
     [username]
   );
 
@@ -377,6 +389,7 @@ app.get('/posts', async (req, res) => {
         p.title,
         p.description,
         p.upload_date,
+        u.username,
         u.first_name,
         u.last_name,
         p.user_id,
@@ -395,8 +408,7 @@ app.get('/posts', async (req, res) => {
 });
 
 app.get('/posts/user/:username', async (req, res) => {
-  const username = req.params.username; // like John-Smith
-  const [firstName, lastName] = username.split('-');
+  const username = req.params.username;
 
   try {
     const [rows] = await db.query(
@@ -407,15 +419,20 @@ app.get('/posts/user/:username', async (req, res) => {
         p.description,
         p.upload_date,
         p.category,
+        u.username,
         u.first_name,
         u.last_name,
         u.avatar
        FROM Posts p
        JOIN Users u ON p.user_id = u.id
-       WHERE u.first_name = ? AND u.last_name = ?
+       WHERE u.username = ?
        ORDER BY p.upload_date DESC`,
-      [firstName, lastName]
+      [username]
     );
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'No posts found for this username.' });
+    }
 
     res.json(rows);
   } catch (err) {
@@ -423,6 +440,7 @@ app.get('/posts/user/:username', async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 app.get('/posts/:id', async (req, res) => {
   const postId = req.params.id;
@@ -501,6 +519,9 @@ app.delete('/posts/:id', authenticateToken, async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+const reviewsRoutes = require('./routes/reviews');
+app.use('/reviews', reviewsRoutes);
 
 
 app.listen(PORT, () => {

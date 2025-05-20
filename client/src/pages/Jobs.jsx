@@ -108,7 +108,7 @@ function Jobs() {
           {posts.length > 0 ? (
             posts.map((post, index) => {
               const shortName = `${post.first_name.charAt(0)}. ${post.last_name}`;
-              let usernameURL = `${post.first_name}-${post.last_name}`;
+              let usernameURL = `${post.username}`;
               if (user && post.user_id === user.id) usernameURL = '';
 
               return (
@@ -129,13 +129,9 @@ function Jobs() {
                       alt="User Avatar"
                       className="job-user-avatar"
                     />
-                    {usernameURL ? (
-                      <Link to={`/profile/${usernameURL}`} className="job-user-name">
-                        {shortName}
-                      </Link>
-                    ) : (
-                      <span className="job-user-name">{shortName}</span>
-                    )}
+                    <Link to={`/profile/${usernameURL}`} className="job-user-name">
+                      {shortName}
+                    </Link>
                   </div>
 
                   <h3>{post.title}</h3>
